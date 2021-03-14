@@ -39,10 +39,10 @@ def getValidAnswer(options):
     guess=entry.get()
     entry.delete(0, 'end')
     if guess not in options:
+        validInputs = str(options)
         if type(options) is dict:
-            tkinterPrint(guess+ " is not a valid input. Valid inputs are: "+ str(list(options.keys())))
-        else:
-            tkinterPrint(guess+ " is not a valid input. Valid inputs are: "+ str(options))
+            validInputs = str(list(options.keys()))
+        tkinterPrint(guess+ " is not a valid input. Valid inputs are: "+ validInputs)
         return ""
         
     return guess
