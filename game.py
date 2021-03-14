@@ -15,12 +15,17 @@ application_window.geometry("750x400")
 gameState = "notStarted"
 guesses = "N/A"
 
-def generateMurder(characters, weapons, rooms):
-    murderer=random.choice(characters)
-    weapon=random.choice(weapons)
-    room=random.choice(rooms)
-    crime=[murderer, weapon, room]
-    return crime
+class Murder:
+
+    def __init__(self, characters, weapons, rooms):
+        self.murderer=random.choice(characters)
+        self.weapon=random.choice(weapons)
+        self.room=random.choice(rooms)
+
+    def asList(self):
+        return [self.murderer, self.weapon, self.room]
+
+
 
 def tkinterPrint(message):
     global application_window
@@ -34,7 +39,10 @@ def getValidAnswer(options):
     guess=entry.get()
     entry.delete(0, 'end')
     if guess not in options:
-        tkinterPrint(guess+ " is not a valid input")
+        if type(options) is dict:
+            tkinterPrint(guess+ " is not a valid input. Valid inputs are: "+ str(list(options.keys())))
+        else:
+            tkinterPrint(guess+ " is not a valid input. Valid inputs are: "+ str(options))
         return ""
         
     return guess
@@ -100,7 +108,8 @@ def playgame(event = None):
         button2.config(text="Restart Game")
         tkinterPrint("Hello and welcome to Keeran's Cluedo!\nFirst you need to select a difficulty, do you want easy, medium or hard?")
         gameState = "chooseDificulty"
-        crimeScene = generateMurder(characters, weapons, rooms)
+        crime = Murder(characters, weapons, rooms)
+        crimeScene = crime.asList()
         print(crimeScene)
         correctGuesses=0
         questionNumber=0
