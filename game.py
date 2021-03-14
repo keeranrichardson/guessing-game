@@ -39,7 +39,7 @@ def getValidAnswer(prompt, options):
 def tkinterInput(prompt, title="Input"):
     global application_window
 
-    answer = simpledialog.askstring(title, prompt, parent=application_window)
+    answer = simpledialog.askstring(title, prompt)
 
     return answer
 
@@ -84,12 +84,11 @@ def chooseLevel():
 
 application_window = tk.Tk()
 application_window.title("cluedo")
-text_area = st.ScrolledText(application_window, width = 30, height = 8, font = ("Times New Roman", 15)) 
+text_area = st.ScrolledText(application_window, width = 30, height = 8) 
   
 text_area.grid(column = 0, pady = 10, padx = 10) 
 
 while True:   
-
     crimeScene=generateMurder(characters, weapons, rooms)
     print(crimeScene)
     guesses = chooseLevel()
