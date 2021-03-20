@@ -47,18 +47,34 @@ def getValidAnswer(options):
         
     return guess
 
+class Prompt:
+    def __init__(self, options, question):
+        self.options = options
+        self.question = question
+
+    def getPromptQuestion(self):
+        prompt = self.question + "\n"
+        questionNumber = 1
+        for option in self.options:
+            prompt += str(questionNumber) + ". " + option + "\n" 
+            questionNumber += 1
+        return prompt
+
 def inputGuess(options, question):
-    prompt = question + "\n"
-    questionNumber = 1
-    for option in options:
-        prompt += str(questionNumber) + ". " + option + "\n" 
-        questionNumber += 1
-    
-    tkinterPrint(prompt)
-    
+    tkinterPrint(Prompt(options, question).getPromptQuestion())
+
+class Guess:
+    def __init__(self, value):
+        self.value = value
+
+    def isCorrect(self, answer):
+        return self.value.upper()==answer.upper()
+
+assert Guess("bob").isCorrect("bob")      
+assert Guess("bo").isCorrect("bob") == False             
 
 def checkGuess(guess, answer):
-    if guess.upper()==answer.upper():
+    if guess.isCorrect(answer):
         tkinterPrint("You got it right!")
         return True
     else:
@@ -75,7 +91,8 @@ def guessCrime(questions, crimeList, crimeScene, characters, weapons, rooms):
         if guessAnswer == "":
             return
         guesses-=1
-        if checkGuess(guessAnswer, crimeScene[questionNumber]):
+        guess = Guess(guessAnswer)
+        if checkGuess(guess, crimeScene[questionNumber]):
             correctGuesses+=1
             questionNumber+=1
 
